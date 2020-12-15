@@ -5,7 +5,14 @@ module.exports = (app) => {
 
   // GET /api/user (CRUD -> READ)
   app.get(`/api/user`, async (req, res) => {
-    const persons = await User.find();
+    let location = req.query.location;
+    let persons = undefined;
+    if (location) {
+      persons = await User.find({ location: location }); 
+    } else {
+      persons = await User.find(); 
+    }
+
     return res.status(200).send(persons);
   });
 
